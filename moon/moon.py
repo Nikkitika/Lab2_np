@@ -4,13 +4,12 @@ import os
 
 
 def enhance_contrast(image_path, output_path=None):
-    """Улучшает контраст и сохраняет файл с суффиксом '_enhanced'"""
     try:
-        # Загрузка изображения
+
         img = Image.open(image_path).convert('L')
         data = np.array(img)
 
-        # Нахождение минимума и максимума
+
         min_val = np.min(data)
         max_val = np.max(data)
 
@@ -18,16 +17,14 @@ def enhance_contrast(image_path, output_path=None):
             print("Ошибка: Все пиксели одинаковые")
             return
 
-        # Линейное растяжение
+
         enhanced_data = ((data - min_val) / (max_val - min_val) * 255).astype(np.uint8)
 
-        # Генерация имени файла
         if output_path is None:
             base = os.path.splitext(image_path)[0]
             ext = os.path.splitext(image_path)[1]
             output_path = f"{base}_enhanced{ext}"
 
-        # Сохранение
         Image.fromarray(enhanced_data).save(output_path)
         print(f"Сохранено: {output_path}")
 
